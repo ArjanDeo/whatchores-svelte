@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageData } from './$types';
-    import { goto } from '$app/navigation';
+import { dev } from '$app/environment';
+import { goto } from '$app/navigation';
     let realmName: string;
     let characterName: string;
     export let data: PageData;
@@ -8,7 +9,11 @@
     async function PingCharacter(realm: string, name: string) {
         try 
         {
-            const pingCharacterResponse = await fetch(`https://localhost:7031/api/v1/general/pingCharacter?name=${name}&realm=${realm}`);
+           let pingCharacterEndpoint = "https://whatchoresapi.azurewebsites.net/api/v1/general/pingCharacter"
+            if (dev) {
+                pingCharacterEndpoint = "https://localhost:7031/api/v1/general/pingCharacter"
+            }
+            const pingCharacterResponse = await fetch(`${pingCharacterEndpoint}?name=${name}&realm=${realm}`);
 
             if (pingCharacterResponse.status === 400) 
             {
