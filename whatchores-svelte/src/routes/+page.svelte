@@ -16,7 +16,7 @@
             {/each}
         {/if}
     </ul>
-    <div class="{data.news === null ? 'mx-auto text-center' : 'lg:ml-80 xl:ml-[322px]'} sticky top-[calc(4rem+1rem)] h-64">
+    <div class="{data.news === null ? 'mx-auto text-center' : 'invisible md:visible md:mt-52 md:ml-7 md:text-center lg:mt-0 lg:ml-80 min-[2560px]:ml-[622px]'} sticky top-[calc(4rem+1rem)] h-64">
         <div>
             <h1 class="text-4xl text-center">Welcome!</h1>
             {#if data.token != null}
