@@ -461,9 +461,15 @@ export type CharacterData = {
       }
     }
     raid_progression: {
-      aberrustheshadowedcrucible: unknown
-      amirdrassilthedreamshope: unknown
-      vaultoftheincarnates: unknown
+      nerubarpalace: {
+        summary: string
+        total_bosses: number
+        normal_bosses_killed: number
+        heroic_bosses_killed: number
+        mythic_bosses_killed: number
+      }
+     // amirdrassilthedreamshope: unknown
+     // vaultoftheincarnates: unknown
     }
     guild: {
       name: string
