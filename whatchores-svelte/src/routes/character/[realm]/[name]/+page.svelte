@@ -1,38 +1,38 @@
 <script lang="ts">
     import type { PageData } from './$types';    
     export let data: PageData;
-    let characterName = data.charData?.raiderIOCharacterData.name;
-    let guildName = data.charData?.raiderIOCharacterData.guild.name;
-    let characterArmory = `https://worldofwarcraft.blizzard.com/en-us/character/us/${data.charData?.raiderIOCharacterData.realm}/${characterName}`;
-    let guildArmory = `https://worldofwarcraft.blizzard.com/en-us/guild/us/${data.charData?.raiderIOCharacterData.guild.realm}/${guildName}`
-    const itemLevelEquipped = data.charData?.raiderIOCharacterData?.gear?.item_level_equipped ?? 0;
+    let characterName = data.character?.raiderIOCharacterData.name;
+    let guildName = data.character?.raiderIOCharacterData.guild.name;
+    let characterArmory = `https://worldofwarcraft.blizzard.com/en-us/character/us/${data.character?.raiderIOCharacterData.realm}/${characterName}`;
+    let guildArmory = `https://worldofwarcraft.blizzard.com/en-us/guild/us/${data.character?.raiderIOCharacterData.guild.realm}/${guildName}`
+    const itemLevelEquipped = data.character?.raiderIOCharacterData?.gear?.item_level_equipped ?? 0;
     const roundedItemLevel = Math.ceil(itemLevelEquipped);
-    const mythicPlusScores = data.charData?.raiderIOCharacterData.mythic_plus_scores_by_season ?? [];
+    const mythicPlusScores = data.character?.raiderIOCharacterData.mythic_plus_scores_by_season ?? [];
     let count = 0;
-    if (data.charRaidData) {
-    for (let i = 0; i < data.charRaidData?.length; i++) {        
-            count++;        
+    if (data.character.raidBossesKilledThisWeek) {
+    for (let i = 0; i < data.character.raidBossesKilledThisWeek?.length; i++) {        
+            count++;
     }
 }
-    let dungeonSlot1 =  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 1 ? 'text-lime-400' : 'text-red-600';
-    let dungeonSlot2 =  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 4 ? 'text-lime-400' : 'text-red-600';
-    let dungeonSlot3 =  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 8 ? 'text-lime-400' : 'text-red-600';
-    let dungeonSlot1Value =  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 1 ? `[Ilvl ${data.charData?.dungeonVaultSlots[0]}]` : null;
-    let dungeonSlot2Value =  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 4 ? `[Ilvl ${data.charData?.dungeonVaultSlots[3]}]` : null;
-    let dungeonSlot3Value =  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 8 ? `[Ilvl ${data.charData?.dungeonVaultSlots[7]}]` : null;
-    let runs = data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs || [];
+    let dungeonSlot1 =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 1 ? 'text-lime-400' : 'text-red-600';
+    let dungeonSlot2 =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 4 ? 'text-lime-400' : 'text-red-600';
+    let dungeonSlot3 =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 8 ? 'text-lime-400' : 'text-red-600';
+    let dungeonSlot1Value =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 1 ? `[Ilvl ${data.character?.dungeonVaultSlots[0]}]` : null;
+    let dungeonSlot2Value =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 4 ? `[Ilvl ${data.character?.dungeonVaultSlots[3]}]` : null;
+    let dungeonSlot3Value =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 8 ? `[Ilvl ${data.character?.dungeonVaultSlots[7]}]` : null;
+    let runs = data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs || [];
 </script>
-<div style="color: {data.charData?.classColor}" class="flex justify-center items-center pt-5 flex-wrap">
+<div style="color: {data.character?.classColor}" class="flex justify-center items-center pt-5 flex-wrap">
     <div class="max-w-md mx-auto bg-slate-800 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
         <div class="md:flex">
             <div class="md:shrink-0">
                 <!-- svelte-ignore a11y-img-redundant-alt -->
-                <img class="h-32 w-full object-cover md:h-full md:w-48" src="{data.charData?.characterMedia.assets[1].value}" alt="Character Thumbnail Picture" />
+                <img class="h-32 w-full object-cover md:h-full md:w-48" src="{data.character?.characterMedia[1].link}" alt="Character Picture" />
             </div>
-            <div style="color: {data.charData?.classColor}" class="p-8">
+            <div style="color: {data.character?.classColor}" class="p-8">
                 <div class="uppercase tracking-wide text-md font-semibold"><a class='hover:text-purple-600 transition-colors' href={characterArmory}>{characterName}</a> <a class='hover:text-purple-600 transition-colors' href={guildArmory}>&lt;{guildName}&gt;</a></div>
                 <!-- svelte-ignore a11y-missing-attribute -->
-                <a class="block mt-1 text-lg leading-tight font-medium text-inherit hover:underline">Item Level {roundedItemLevel} {data.charData?.raiderIOCharacterData.active_spec_name} {data.charData?.raiderIOCharacterData.char_class}</a>
+                <a class="block mt-1 text-lg leading-tight font-medium text-inherit hover:underline">Item Level {roundedItemLevel} {data.character?.raiderIOCharacterData.active_spec_name} {data.character?.raiderIOCharacterData.char_class}</a>
                 {#each mythicPlusScores as season}
                     <p>Mythic+ Score: {season.scores.all}</p>
                 {/each}
@@ -65,7 +65,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="px-6 py-4 whitespace-no-wrap text-xl">Dungeons ({data.charData?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length} completed)</td>                            
+                <td class="px-6 py-4 whitespace-no-wrap text-xl">Dungeons ({data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length} completed)</td>                            
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot1}`}>
                 Complete 1 Heroic, Mythic, or Timewalking Dungeon {#if dungeonSlot1Value != null} {dungeonSlot1Value} {/if} 
                 {#each runs as run}

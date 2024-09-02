@@ -31,7 +31,6 @@ export interface Post {
     image: string
 }
 export type CharacterData = {
-  mythicKeystoneValues: unknown
   raiderIOCharacterData: {
     name: string
     race: string
@@ -471,36 +470,16 @@ export type CharacterData = {
       realm: string
     }
   }
-  dungeonVaultSlots: Array<unknown>
+  raidBossesKilledThisWeek: Array<{
+    boss: string
+    difficulty: string
+  }>
+  dungeonVaultSlots: number[]
   classColor: string
-  characterMedia: {
-    _links: {
-      self: {
-        href: string
-      }
-    }
-    character: {
-      key: {
-        href: string
-      }
-      name: string
-      id: number
-      realm: {
-        key: {
-          href: string
-        }
-        name: string
-        id: number
-        slug: string
-      }
-    }
-    assets: Array<{
-      key: string
-      value: string
-    }>
-  }
-  successfullyRetrievedCharacter: boolean
-  realmNames: unknown
+  characterMedia: Array<{
+    type: string
+    link: string
+  }>
 }
 export type RaidData = Array<{
   Boss: string

@@ -7,24 +7,17 @@ if (dev) {
 
 export const load = (async ({fetch, params }) => {
     try {
-        let charDataEndpoint = "https://whatchoresapi.azurewebsites.net/api/v1/general/charData"
-        let charRaidDataEndpoint = "https://whatchoresapi.azurewebsites.net/api/v1/general/charRaids"
+        let charDataEndpoint = "https://whatchoresapi.azurewebsites.net/api/v1/general/character"
 
         if (dev) {
             console.log('Dev Environment Active')
-
-            charDataEndpoint = "https://localhost:7031/api/v1/general/charData"
-            charRaidDataEndpoint = "https://localhost:7031/api/v1/general/charRaids"
+            charDataEndpoint = "https://localhost:7031/api/v1/general/character"
         }
         const charDataResponse = await fetch(`${charDataEndpoint}?realm=${params.realm}&name=${params.name}&region=us`);        
-        const charData: Types.CharacterData = await charDataResponse.json();
+        const character: Types.CharacterData = await charDataResponse.json();
 
-        const charRaidDataResponse = await fetch(`${charRaidDataEndpoint}?name=${params.name}&realm=${params.realm}&region=us`);
-        const charRaidData: Types.RaidData = await charRaidDataResponse.json();
-        
         return {
-            charData,
-            charRaidData
+            character
         };
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (_) {
