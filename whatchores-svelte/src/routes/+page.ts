@@ -2,11 +2,11 @@ import type { PageLoad } from './$types';
 import * as Types from '$lib/types';
 import { dev } from '$app/environment';
 import { browser } from '$app/environment';
+
 if (dev) {
     import.meta.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
 }
-
-export const load = (async () => {
+export const load = (async ({ fetch }) => {
 
     
     // Define variables to hold data, with fallback values

@@ -457,7 +457,26 @@ export type CharacterData = {
           gems: Array<unknown>
           bonuses: Array<number>
         }
-        offhand: unknown
+        offhand: {
+          item_id: number
+          item_level: number
+          icon: string
+          name: string
+          item_quality: number
+          is_legendary: boolean
+          is_azerite_armor: boolean
+          azerite_powers: Array<unknown>
+          corruption: {
+            added: number
+            resisted: number
+            total: number
+            cloakRank: number
+            spells: unknown
+          }
+          domination_shards: Array<unknown>
+          gems: Array<unknown>
+          bonuses: Array<number>
+        }
       }
     }
     raid_progression: {

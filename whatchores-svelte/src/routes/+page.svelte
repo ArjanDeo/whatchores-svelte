@@ -29,7 +29,11 @@
                 {#each data.affixes.affix_details as affix }
                 <div class="mr-5">
                     <a href="{affix.wowhead_url}" target="_blank">
+                        {#if affix.icon === "spell_priest_voidblast"}
+                        <img class="w-20 rounded-md cursor-pointer" alt="{affix.name}" src="https://wow.zamimg.com/images/wow/icons/large/spell_priest_void-blast.jpg">
+                        {:else}
                         <img class="w-20 rounded-md cursor-pointer" alt="{affix.name}" src="https://wow.zamimg.com/images/wow/icons/large/{affix.icon}.jpg">
+                        {/if}
                     </a>
                 </div>
                 {/each}

@@ -21,25 +21,89 @@
     let dungeonSlot2Value =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 4 ? `[Ilvl ${data.character?.dungeonVaultSlots[3]}]` : null;
     let dungeonSlot3Value =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 8 ? `[Ilvl ${data.character?.dungeonVaultSlots[7]}]` : null;
     let runs = data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs || [];
+
+    let head = data.character.raiderIOCharacterData.gear.items.head;
+    let neck = data.character.raiderIOCharacterData.gear.items.neck;
+    let shoulders = data.character.raiderIOCharacterData.gear.items.shoulder;
+    let back = data.character.raiderIOCharacterData.gear.items.back;
+    let chest = data.character.raiderIOCharacterData.gear.items.chest;
+    let wrists = data.character.raiderIOCharacterData.gear.items.wrist;
+    let hands = data.character.raiderIOCharacterData.gear.items.hands;
+    let waist = data.character.raiderIOCharacterData.gear.items.waist;
+    let legs = data.character.raiderIOCharacterData.gear.items.legs;
+    let feet = data.character.raiderIOCharacterData.gear.items.feet;
+    let ring1 = data.character.raiderIOCharacterData.gear.items.finger1;
+    let ring2 = data.character.raiderIOCharacterData.gear.items.finger2;
+    let trinket1 = data.character.raiderIOCharacterData.gear.items.trinket1;
+    let trinket2 = data.character.raiderIOCharacterData.gear.items.trinket2;
+    let mainhand = data.character.raiderIOCharacterData.gear.items.mainhand;
+    let offhand = data.character.raiderIOCharacterData.gear.items.offhand;
 </script>
 <div style="color: {data.character?.classColor}" class="flex justify-center items-center pt-5 flex-wrap">
-    <div class="max-w-md mx-auto bg-slate-800 rounded-xl shadow-md overflow-hidden md:max-w-2xl">
-        <div class="md:flex">
-            <div class="md:shrink-0">
-                <!-- svelte-ignore a11y-img-redundant-alt -->
-                <img class="h-32 w-full object-cover md:h-full md:w-48" src="{data.character?.characterMedia[1].link}" alt="Character Picture" />
-            </div>
-            <div style="color: {data.character?.classColor}" class="p-8">
-                <div class="uppercase tracking-wide text-md font-semibold"><a class='hover:text-purple-600 transition-colors' href={characterArmory}>{characterName}</a> <a class='hover:text-purple-600 transition-colors' href={guildArmory}>&lt;{guildName}&gt;</a></div>
-                <!-- svelte-ignore a11y-missing-attribute -->
-                <a class="block mt-1 text-lg leading-tight font-medium text-inherit hover:underline">Item Level {roundedItemLevel} {data.character?.raiderIOCharacterData.active_spec_name} {data.character?.raiderIOCharacterData.char_class}</a>
+    <div class="max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl flex">
+        <!-- Character Panel -->
+        <div class="md:shrink-0 p-4 flex flex-col items-center bg-slate-800">
+            <!-- Character Image -->
+            <img class="h-24 w-full object-cover md:h-32 md:w-48 rounded-lg" src="{data.character?.characterMedia[1].link}" alt="Character" />
+            <div style="color: {data.character?.classColor}" class="p-4 text-center">
+                <div class="uppercase tracking-wide text-md font-semibold">
+                    <a class='hover:text-purple-600 transition-colors' href={characterArmory}>{characterName}</a>
+                    <a class='hover:text-purple-600 transition-colors' href={guildArmory}>&lt;{guildName}&gt;</a>
+                </div>
+                <p class="block mt-1 text-lg leading-tight font-medium text-inherit hover:underline">
+                    Item Level {roundedItemLevel} {data.character?.raiderIOCharacterData.active_spec_name} {data.character?.raiderIOCharacterData.char_class}
+                </p>
                 {#each mythicPlusScores as season}
                     <p>Mythic+ Score: {season.scores.all}</p>
                 {/each}
+                
+                {data.character.raiderIOCharacterData.raid_progression.nerubarpalace.summary} Nerub-ar Palace
+            </div>
+        </div>
+        <!-- Gear List -->
+        <div class="flex-1 p-4">
+            <div class="flex flex-wrap justify-center space-x-6">
+                <div class="flex flex-col">
+                    {#each [head, neck, shoulders, back, chest, wrists] as item}
+                    <li class="has-tooltip">
+                        <a target="_blank" href="https://www.wowhead.com/item={item.item_id}/">
+                            <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{item.icon}.jpg" alt="{item.name}">
+                        </a>
+                        <span class='tooltip rounded shadow-lg p-1 bg-gray-100 text-red-500 -mt-8'>{item.name}</span>
+                    </li>
+                    {/each}
+                </div>
+                <div class="flex flex-col">
+                    {#each [hands, waist, legs, feet, ring1, ring2, trinket1, trinket2] as item}
+                    <li class="has-tooltip">
+                        <a target="_blank" href="https://www.wowhead.com/item={item.item_id}/">
+                            <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{item.icon}.jpg" alt="{item.name}">
+                        </a>
+                        <span class='tooltip rounded shadow-lg p-1 bg-gray-100 text-red-500 -mt-8'>{item.name}</span>
+                    </li>
+                    {/each}
+                </div>
+            </div>
+            <div class="flex justify-center mt-4">
+                <li class="has-tooltip">
+                    <a target="_blank" href="https://www.wowhead.com/item={mainhand.item_id}/">
+                        <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{mainhand.icon}.jpg" alt="mainhand">
+                    </a>
+                    <span class='tooltip'>{mainhand.name}</span>
+                </li>
+                {#if data.character.raiderIOCharacterData.gear.items.offhand != null}
+                <li class="has-tooltip">
+                    <a target="_blank" href="https://www.wowhead.com/item={offhand.item_id}/">
+                        <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{offhand.icon}.jpg" alt="offhand">
+                    </a>
+                    <span class='tooltip'>{offhand.name}</span>
+                </li>
+                {/if}
             </div>
         </div>
     </div>
 </div>
+
 <div class="overflow-x-auto pt-24 border-0 rounded-md max-w-screen-lg ms-auto me-auto">
     <table class="min-w-full bg-slate-800 border-0 rounded-md">
         <thead>
@@ -86,3 +150,4 @@
         </tbody>
     </table>
 </div>
+
