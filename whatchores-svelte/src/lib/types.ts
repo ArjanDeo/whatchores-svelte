@@ -513,3 +513,12 @@ export type RaidData = Array<{
 export type Realms = Array<{
   realmName: string
 }>
+export enum ItemQuality {
+  Heirloom = 7,
+  Artifact = 6,
+  Legendary = 5,
+  Epic = 4,
+  Rare = 3,
+  Uncommon = 2,
+  Common = 1
+}

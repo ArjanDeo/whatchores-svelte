@@ -1,5 +1,6 @@
 <script lang="ts">
-    import type { PageData } from './$types';    
+    import { ItemQuality } from '$lib/types';
+import type { PageData } from './$types';    
     export let data: PageData;
     let characterName = data.character?.raiderIOCharacterData.name;
     let guildName = data.character?.raiderIOCharacterData.guild.name;
@@ -44,7 +45,7 @@
         <!-- Character Panel -->
         <div class="md:shrink-0 p-4 flex flex-col items-center bg-slate-800">
             <!-- Character Image -->
-            <img class="h-24 w-full object-cover md:h-32 md:w-48 rounded-lg" src="{data.character?.characterMedia[1].link}" alt="Character" />
+            <img class="h-24 w-full object-cover md:h-32 md:w-fit rounded-lg" src="{data.character?.characterMedia[1].link}" alt="Character" />
             <div style="color: {data.character?.classColor}" class="p-4 text-center">
                 <div class="uppercase tracking-wide text-md font-semibold">
                     <a class='hover:text-purple-600 transition-colors' href={characterArmory}>{characterName}</a>
@@ -58,53 +59,90 @@
                 {/each}
                 
                 {data.character.raiderIOCharacterData.raid_progression.nerubarpalace.summary} Nerub-ar Palace
+                    <div class="grid grid-cols-3 lg:grid-cols-4 gap-2 md:gap-6 justify-center">
+                        {#each [head, neck, shoulders, back, chest, wrists, hands, waist, legs, feet, ring1, ring2, trinket1, trinket2] as item}
+                        <div class="has-tooltip flex flex-col items-center">
+                            <a target="_blank" href="https://www.wowhead.com/item={item.item_id}/">
+                                <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{item.icon}.jpg" alt="{item.name}">
+                            </a>
+                            {#if item.item_quality == ItemQuality.Common}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#ffffff] -mt-8">{item.name}</span>
+                            {:else if item.item_quality == ItemQuality.Uncommon}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#1eff00] -mt-8">{item.name}</span>
+                            {:else if item.item_quality == ItemQuality.Rare}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#0070dd] -mt-8">{item.name}</span>
+                            {:else if item.item_quality == ItemQuality.Epic}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#a335ee] -mt-8">{item.name}</span>
+                            {:else if item.item_quality == ItemQuality.Legendary}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#ff8000] -mt-8">{item.name}</span>
+                            {:else if item.item_quality == ItemQuality.Artifact}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#e6cc80] -mt-8">{item.name}</span>
+                            {:else if item.item_quality == ItemQuality.Heirloom}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#00ccff] -mt-8">{item.name}</span>
+                            {:else}
+                            <span style="color: {data.character?.classColor}" class="tooltip rounded shadow-lg p-1 bg-slate-700 text-heirloom -mt-8">{item.name}</span>
+                            {/if}
+                        </div>
+                        {/each}
+                    
+                        <!-- Mainhand item -->
+                        <div class="has-tooltip flex flex-col items-center">
+                            <a target="_blank" href="https://www.wowhead.com/item={mainhand.item_id}/">
+                                <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{mainhand.icon}.jpg" alt="mainhand">
+                            </a>
+                            {#if mainhand.item_quality == ItemQuality.Common}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#ffffff] -mt-8">{mainhand.name}</span>
+                            {:else if mainhand.item_quality == ItemQuality.Uncommon}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#1eff00] -mt-8">{mainhand.name}</span>
+                            {:else if mainhand.item_quality == ItemQuality.Rare}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#0070dd] -mt-8">{mainhand.name}</span>
+                            {:else if mainhand.item_quality == ItemQuality.Epic}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#a335ee] -mt-8">{mainhand.name}</span>
+                            {:else if mainhand.item_quality == ItemQuality.Legendary}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#ff8000] -mt-8">{mainhand.name}</span>
+                            {:else if mainhand.item_quality == ItemQuality.Artifact}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#e6cc80] -mt-8">{mainhand.name}</span>
+                            {:else if mainhand.item_quality == ItemQuality.Heirloom}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#00ccff] -mt-8">{mainhand.name}</span>
+                            {:else}
+                            <span style="color: {data.character?.classColor}" class="tooltip rounded shadow-lg p-1 bg-slate-700 text-heirloom -mt-8">{mainhand.name}</span>
+                            {/if}
+                        </div>
+                    
+                        <!-- Offhand item (if exists) -->
+                        {#if data.character.raiderIOCharacterData.gear.items.offhand != null}
+                        <div class="has-tooltip flex flex-col items-center">
+                            <a target="_blank" href="https://www.wowhead.com/item={offhand.item_id}/">
+                                <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{offhand.icon}.jpg" alt="offhand">
+                            </a>
+                            {#if offhand.item_quality == ItemQuality.Common}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#ffffff] -mt-8">{offhand.name}</span>
+                            {:else if offhand.item_quality == ItemQuality.Uncommon}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#1eff00] -mt-8">{offhand.name}</span>
+                            {:else if offhand.item_quality == ItemQuality.Rare}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#0070dd] -mt-8">{offhand.name}</span>
+                            {:else if offhand.item_quality == ItemQuality.Epic}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#a335ee] -mt-8">{offhand.name}</span>
+                            {:else if offhand.item_quality == ItemQuality.Legendary}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#ff8000] -mt-8">{offhand.name}</span>
+                            {:else if offhand.item_quality == ItemQuality.Artifact}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#e6cc80] -mt-8">{offhand.name}</span>
+                            {:else if offhand.item_quality == ItemQuality.Heirloom}
+                            <span class="tooltip rounded shadow-lg p-1 bg-slate-700 text-[#00ccff] -mt-8">{offhand.name}</span>
+                            {:else}
+                            <span style="color: {data.character?.classColor}" class="tooltip rounded shadow-lg p-1 bg-slate-700 text-heirloom -mt-8">{offhand.name}</span>
+                            {/if}
+                        </div>
+                        {/if}
+                    </div>
             </div>
         </div>
         <!-- Gear List -->
-        <div class="flex-1 p-4">
-            <div class="flex flex-wrap justify-center space-x-6">
-                <div class="flex flex-col">
-                    {#each [head, neck, shoulders, back, chest, wrists] as item}
-                    <li class="has-tooltip">
-                        <a target="_blank" href="https://www.wowhead.com/item={item.item_id}/">
-                            <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{item.icon}.jpg" alt="{item.name}">
-                        </a>
-                        <span class='tooltip rounded shadow-lg p-1 bg-gray-100 text-red-500 -mt-8'>{item.name}</span>
-                    </li>
-                    {/each}
-                </div>
-                <div class="flex flex-col">
-                    {#each [hands, waist, legs, feet, ring1, ring2, trinket1, trinket2] as item}
-                    <li class="has-tooltip">
-                        <a target="_blank" href="https://www.wowhead.com/item={item.item_id}/">
-                            <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{item.icon}.jpg" alt="{item.name}">
-                        </a>
-                        <span class='tooltip rounded shadow-lg p-1 bg-gray-100 text-red-500 -mt-8'>{item.name}</span>
-                    </li>
-                    {/each}
-                </div>
-            </div>
-            <div class="flex justify-center mt-4">
-                <li class="has-tooltip">
-                    <a target="_blank" href="https://www.wowhead.com/item={mainhand.item_id}/">
-                        <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{mainhand.icon}.jpg" alt="mainhand">
-                    </a>
-                    <span class='tooltip'>{mainhand.name}</span>
-                </li>
-                {#if data.character.raiderIOCharacterData.gear.items.offhand != null}
-                <li class="has-tooltip">
-                    <a target="_blank" href="https://www.wowhead.com/item={offhand.item_id}/">
-                        <img class="max-w-12 mb-2 hover:cursor-pointer" src="https://wow.zamimg.com/images/wow/icons/large/{offhand.icon}.jpg" alt="offhand">
-                    </a>
-                    <span class='tooltip'>{offhand.name}</span>
-                </li>
-                {/if}
-            </div>
-        </div>
+        
     </div>
 </div>
 
-<div class="overflow-x-auto pt-24 border-0 rounded-md max-w-screen-lg ms-auto me-auto">
+<div class="overflow-x-auto pt-24 border-0 rounded-md max-w-screen-lg ms-auto me-auto mb-4">
     <table class="min-w-full bg-slate-800 border-0 rounded-md">
         <thead>
             <tr>
@@ -131,7 +169,7 @@
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap text-xl">Dungeons ({data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length} completed)</td>                            
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot1}`}>
-                Complete 1 Heroic, Mythic, or Timewalking Dungeon {#if dungeonSlot1Value != null} {dungeonSlot1Value} {/if} 
+                Complete 1 Heroic, Mythic, or Timewalking Dungeon {#if dungeonSlot1Value != null} <br/>{dungeonSlot1Value} {/if} 
                 {#each runs as run}
                 <div>
                     <p>Dungeon: {run.dungeon}</p>
