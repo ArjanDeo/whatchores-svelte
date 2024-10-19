@@ -1,6 +1,6 @@
 <script lang="ts">
     import { ItemQuality } from '$lib/types';
-import type { PageData } from './$types';    
+    import type { PageData } from './$types';    
     export let data: PageData;
     let characterName = data.character?.raiderIOCharacterData.name;
     let guildName = data.character?.raiderIOCharacterData.guild.name;
@@ -14,7 +14,19 @@ import type { PageData } from './$types';
     for (let i = 0; i < data.character.raidBossesKilledThisWeek?.length; i++) {        
             count++;
     }
-}
+    }
+    async function updateCharacter() {
+        try {
+           const updateCharacterData = await fetch('https://localhost:7031/api/v1/general/updateCharacter?name='+characterName+'&realm='+data.character.raiderIOCharacterData.realm+'&region='+data.character.raiderIOCharacterData.region)
+            if (updateCharacterData.ok) {
+                alert('Character successfully updated!\nRefresh the page to show changes')
+            } else {
+                console.log('Error')
+            }
+        } catch (error) {
+            console.error(error)
+        }
+    }
     let dungeonSlot1 =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 1 ? 'text-lime-400' : 'text-red-600';
     let dungeonSlot2 =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 4 ? 'text-lime-400' : 'text-red-600';
     let dungeonSlot3 =  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs &&  data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length >= 8 ? 'text-lime-400' : 'text-red-600';
@@ -39,6 +51,15 @@ import type { PageData } from './$types';
     let trinket2 = data.character.raiderIOCharacterData.gear.items.trinket2;
     let mainhand = data.character.raiderIOCharacterData.gear.items.mainhand;
     let offhand = data.character.raiderIOCharacterData.gear.items.offhand;
+
+    let dungeonSlot2Runs = [];
+    let dungeonSlot3Runs = [];
+    for (let i = 0; i < 4; i++) {
+        dungeonSlot2Runs[i] = runs[i]
+    }
+    for (let i = 0; i < 8; i++) {
+        dungeonSlot3Runs[i] = runs[i]
+    }
 </script>
 <div style="color: {data.character?.classColor}" class="flex justify-center items-center pt-5 flex-wrap">
     <div class="max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl flex">
@@ -51,7 +72,7 @@ import type { PageData } from './$types';
                     <a class='hover:text-purple-600 transition-colors' href={characterArmory}>{characterName}</a>
                     <a class='hover:text-purple-600 transition-colors' href={guildArmory}>&lt;{guildName}&gt;</a>
                 </div>
-                <p class="block mt-1 text-lg leading-tight font-medium text-inherit hover:underline">
+                <p class="block mt-1 text-lg leading-tight font-medium text-inherit">
                     Item Level {roundedItemLevel} {data.character?.raiderIOCharacterData.active_spec_name} {data.character?.raiderIOCharacterData.char_class}
                 </p>
                 {#each mythicPlusScores as season}
@@ -137,12 +158,12 @@ import type { PageData } from './$types';
                     </div>
             </div>
         </div>
-        <!-- Gear List -->
-        
     </div>
 </div>
-
-<div class="overflow-x-auto pt-24 border-0 rounded-md max-w-screen-lg ms-auto me-auto mb-4">
+<div class="flex justify-center items-center mt-5">
+    <button on:click={() => updateCharacter()} class="bg-blue-600 hover:bg-blue-700 transition-colors ease-in-out h-12 w-auto rounded-md px-2">Update Character</button>
+</div>
+<div class="overflow-x-auto pt-12 border-0 rounded-md max-w-screen-lg ms-auto me-auto mb-4">
     <table class="min-w-full bg-slate-800 border-0 rounded-md">
         <thead>
             <tr>
@@ -169,20 +190,20 @@ import type { PageData } from './$types';
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap text-xl">Dungeons ({data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length} completed)</td>                            
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot1}`}>
-                Complete 1 Heroic, Mythic, or Timewalking Dungeon {#if dungeonSlot1Value != null} <br/>{dungeonSlot1Value} {/if} 
-                {#each runs as run}
-                <div>
-                    <p>Dungeon: {run.dungeon}</p>
-                    <p>Mythic Level: {run.mythic_level}</p>
-                </div>
-            {/each}
-            
+                Complete 1 Heroic, Mythic, or Timewalking Dungeon {#if dungeonSlot1Value != null} <br/>{dungeonSlot1Value} {/if}         
+               <p>+{runs[0].mythic_level} {runs[0].dungeon}</p>
                 </td>
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot2}`}>
                     Complete 4 Heroic, Mythic, or Timewalking Dungeons {#if dungeonSlot2Value != null} {dungeonSlot2Value} {/if} 
+                    {#each dungeonSlot2Runs as run}
+                    <p>+{run.mythic_level} {run.dungeon}</p>                        
+                    {/each}
                 </td>
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot3}`}>
-                    Complete 8 Heroic, Mythic, or Timewalking Dungeons {#if dungeonSlot3Value != null} {dungeonSlot3Value} {/if} 
+                    Complete 8 Heroic, Mythic, or Timewalking Dungeons {#if dungeonSlot3Value != null} {dungeonSlot3Value} {/if}
+                    {#each dungeonSlot3Runs  as run}
+                    <p>+{run.mythic_level} {run.dungeon}</p>                        
+                    {/each}
                 </td>
             </tr>                       
         </tbody>
