@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { dev } from '$app/environment';
     import { ItemQuality } from '$lib/types';
     import type { PageData } from './$types';    
     export let data: PageData;
@@ -17,7 +18,11 @@
     }
     async function updateCharacter() {
         try {
-           const updateCharacterData = await fetch('https://localhost:7031/api/v1/general/updateCharacter?name='+characterName+'&realm='+data.character.raiderIOCharacterData.realm+'&region='+data.character.raiderIOCharacterData.region)
+            let updateCharEndpoint = 'https://whatchoresapi.azurewebsites.net';
+            if (dev) {
+                updateCharEndpoint = 'https://localhost:7031';
+            }
+           const updateCharacterData = await fetch(updateCharEndpoint+'/api/v1/general/updateCharacter?name='+characterName+'&realm='+data.character.raiderIOCharacterData.realm+'&region='+data.character.raiderIOCharacterData.region)
             if (updateCharacterData.ok) {
                 alert('Character successfully updated!\nRefresh the page to show changes')
             } else {
