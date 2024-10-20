@@ -6,7 +6,7 @@
     let characterName = data.character?.raiderIOCharacterData.name;
     let guildName = data.character?.raiderIOCharacterData.guild.name;
     let characterArmory = `https://worldofwarcraft.blizzard.com/en-us/character/us/${data.character?.raiderIOCharacterData.realm}/${characterName}`;
-    let guildArmory = `https://worldofwarcraft.blizzard.com/en-us/guild/us/${data.character?.raiderIOCharacterData.guild.realm}/${guildName}`
+    let guildArmory = `https://worldofwarcraft.blizzard.com/en-us/guild/us/${data.character?.raiderIOCharacterData.guild.realm}/${guildName.replace(/ /g, '-')}`
     const itemLevelEquipped = data.character?.raiderIOCharacterData?.gear?.item_level_equipped ?? 0;
     const roundedItemLevel = Math.ceil(itemLevelEquipped);
     const mythicPlusScores = data.character?.raiderIOCharacterData.mythic_plus_scores_by_season ?? [];
@@ -77,8 +77,8 @@
             <img class="h-24 w-full object-cover md:h-32 md:w-fit rounded-lg" src="{data.character?.characterMedia[1].link}" alt="Character" />
             <div style="color: {data.character?.classColor}" class="p-4 text-center">
                 <div class="uppercase tracking-wide text-md font-semibold">
-                    <a class='hover:text-purple-600 transition-colors' href={characterArmory}>{characterName}</a>
-                    <a class='hover:text-purple-600 transition-colors' href={guildArmory}>&lt;{guildName}&gt;</a>
+                    <a class='hover:text-purple-600 transition-colors' href={characterArmory} target="_blank">{characterName}</a>
+                    <a class='hover:text-purple-600 transition-colors' href={guildArmory} target="_blank">&lt;{guildName}&gt;</a>
                 </div>
                 <p class="block mt-1 text-lg leading-tight font-medium text-inherit">
                     Item Level {roundedItemLevel} {data.character?.raiderIOCharacterData.active_spec_name} {data.character?.raiderIOCharacterData.char_class}
