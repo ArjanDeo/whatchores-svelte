@@ -32,7 +32,7 @@
     }
     async function handleSubmit(event: Event) {
     event.preventDefault();
-    if (!realms.some(realm => realm.realmName === realmName)) {
+    if (!realms.some(realm => realm.realmName.toLowerCase() === realmName.toLowerCase())) {
         document.getElementById('invalidRealmNotification')?.classList.remove('invisible');
     } else {
 
