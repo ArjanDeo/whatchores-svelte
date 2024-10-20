@@ -2,6 +2,7 @@
     import type { PageData } from './$types';
     import { dev } from '$app/environment';
     import { goto } from '$app/navigation';
+    import { realms } from '$lib/realms';
     let realmName: string;
     let characterName: string;
     export let data: PageData;
@@ -15,7 +16,7 @@
             }
             const pingCharacterResponse = await fetch(`${pingCharacterEndpoint}?name=${name}&realm=${realm}`);
 
-            if (pingCharacterResponse.status === 400) 
+            if (pingCharacterResponse.status === 404) 
             {
                 document.getElementById('errorNotification')?.classList.remove('invisible');
             } 
@@ -31,10 +32,18 @@
     }
     async function handleSubmit(event: Event) {
     event.preventDefault();
+    if (!realms.some(realm => realm.realmName === realmName)) {
+        document.getElementById('invalidRealmNotification')?.classList.remove('invisible');
+    } else {
+
         await PingCharacter(realmName,characterName);
     }
-function closeNotification() {
+    }
+function closeErrorNotification() {
 document.getElementById('errorNotification')?.classList.add('invisible');
+}
+function closeInvalidRealmNotification() {
+document.getElementById('invalidRealmNotification')?.classList.add('invisible');
 }
 </script>
 <svelte:head>
@@ -44,8 +53,26 @@ document.getElementById('errorNotification')?.classList.add('invisible');
     <strong class="mr-3 font-bold">Character not found</strong>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3 -mr-5">
         <svg 
-          on:click={closeNotification} 
-          on:keydown={(event) => (event.key === 'Enter' || event.key === ' ') && closeNotification()} 
+          on:click={closeErrorNotification} 
+          on:keydown={(event) => (event.key === 'Enter' || event.key === ' ') && closeErrorNotification()} 
+          class="fill-current h-6 w-6 text-red-500" 
+          role="button" 
+          tabindex="0" 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 20 20"
+        >
+          <title>Close</title>
+          <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z"/>
+        </svg>
+      </span>
+      
+  </div>
+  <div id="invalidRealmNotification" class="bg-red-400 border border-red-400 text-red-700 px-4 py-3 rounded relative w-fit mx-auto mt-5 invisible" role="alert">
+    <strong class="mr-3 font-bold">Invalid realm</strong>
+    <span class="absolute top-0 bottom-0 right-0 px-4 py-3 -mr-5">
+        <svg 
+          on:click={closeInvalidRealmNotification} 
+          on:keydown={(event) => (event.key === 'Enter' || event.key === ' ') && closeInvalidRealmNotification()} 
           class="fill-current h-6 w-6 text-red-500" 
           role="button" 
           tabindex="0" 
