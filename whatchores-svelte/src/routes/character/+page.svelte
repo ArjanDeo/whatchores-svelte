@@ -22,7 +22,7 @@
             } 
             else if (pingCharacterResponse.status === 200) 
             {
-                goto(`/character/${realm}/${name}`)
+                goto(`/character/${realm.toLowerCase()}/${name.toLowerCase()}`)
             }
    
         } catch
