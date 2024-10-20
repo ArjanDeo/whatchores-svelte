@@ -1,6 +1,9 @@
 <script lang="ts">
     export let data;
 </script>
+<svelte:head>
+    <title>What Chores</title> 
+</svelte:head>
 
 <div class="md:flex mt-5">
     <div class="order-1 md:order-2 {data.news === null ? 'mx-auto text-center' : 'md:ml-2 md:mt-5 md:text-center lg:mt-0 lg:ml-80 min-[2560px]:ml-[622px]'} md:sticky top-[calc(4rem+1rem)] h-64">

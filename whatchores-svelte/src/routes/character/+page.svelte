@@ -37,9 +37,9 @@ function closeNotification() {
 document.getElementById('errorNotification')?.classList.add('invisible');
 }
 </script>
-<div>
-    
-</div>
+<svelte:head>
+    <title>What Chores</title> 
+</svelte:head>
 <div id="errorNotification" class="bg-red-400 border border-red-400 text-red-700 px-4 py-3 rounded relative w-fit mx-auto mt-5 invisible" role="alert">
     <strong class="mr-3 font-bold">Character not found</strong>
     <span class="absolute top-0 bottom-0 right-0 px-4 py-3 -mr-5">

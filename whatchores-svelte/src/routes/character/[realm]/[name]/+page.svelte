@@ -66,6 +66,9 @@
         dungeonSlot3Runs[i] = runs[i]
     }
 </script>
+<svelte:head>
+    <title>What Chores | {data.character.raiderIOCharacterData.name} - {data.character.raiderIOCharacterData.realm}</title> 
+</svelte:head>
 <div style="color: {data.character?.classColor}" class="flex justify-center items-center pt-5 flex-wrap">
     <div class="max-w-md mx-auto rounded-xl shadow-md overflow-hidden md:max-w-2xl flex">
         <!-- Character Panel -->
