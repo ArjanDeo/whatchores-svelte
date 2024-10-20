@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from './$types';
-import { dev } from '$app/environment';
-import { goto } from '$app/navigation';
+    import { dev } from '$app/environment';
+    import { goto } from '$app/navigation';
     let realmName: string;
     let characterName: string;
     export let data: PageData;
@@ -74,7 +74,7 @@ document.getElementById('errorNotification')?.classList.add('invisible');
                 bind:value={realmName}
             />            
                 <datalist id="realms">
-                    {#each data.realmData
+                    {#each data.realmList
                         .sort((a, b) => a.realmName.localeCompare(b.realmName))
                         as realm (realm.realmName)}
                         <option value="{realm.realmName}">{realm.realmName}</option>

@@ -1,6 +1,7 @@
 import type { PageLoad } from './$types';
 import * as Types from '$lib/types'
 import { dev } from '$app/environment';
+import { error } from '@sveltejs/kit';
 
 export const load = (async ({fetch, params }) => {
    // try {
@@ -13,7 +14,7 @@ export const load = (async ({fetch, params }) => {
         const charDataResponse = await fetch(`${charDataEndpoint}?realm=${params.realm}&name=${params.name}&region=us`);
         
         if (!charDataResponse.ok) {
-            throw new Error('Error fetching character. ' + charDataResponse.status + ' ' + charDataResponse.statusText)
+            throw error(400, 'Error fetching character. ' + charDataResponse.status + ' ' + charDataResponse.statusText)
         }
         const character: Types.CharacterData = await charDataResponse.json();
 

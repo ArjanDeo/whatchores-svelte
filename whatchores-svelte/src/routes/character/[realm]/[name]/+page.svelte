@@ -184,31 +184,68 @@
                 <td class={`px-6 py-4 whitespace-no-wrap ${count >= 2 ? 'text-lime-400' : 'text-red-600'}`}>
                     
                     Defeat 2 Nerub-ar Palace Raid Bosses
+                    {#if count >= 2}
+                        <ul>
+                            <li>
+                                {data.character.raidBossesKilledThisWeek[0].difficulty} {data.character.raidBossesKilledThisWeek[0].boss}<br/>
+                                {data.character.raidBossesKilledThisWeek[1].difficulty} {data.character.raidBossesKilledThisWeek[1].boss}
+                            </li>
+                        </ul>
+                    {/if}
                 </td>
                 <td class={`px-6 py-4 whitespace-no-wrap ${count >= 4 ? 'text-lime-400' : 'text-red-600'}`}>
                     Defeat 4 Nerub-ar Palace Raid Bosses
+                    {#if count >= 4}
+                        <ul>
+                            <li>
+                                {data.character.raidBossesKilledThisWeek[0].difficulty} {data.character.raidBossesKilledThisWeek[0].boss}<br/>
+                                {data.character.raidBossesKilledThisWeek[1].difficulty} {data.character.raidBossesKilledThisWeek[1].boss}<br/>
+                                {data.character.raidBossesKilledThisWeek[2].difficulty} {data.character.raidBossesKilledThisWeek[2].boss}<br/>
+                                {data.character.raidBossesKilledThisWeek[3].difficulty} {data.character.raidBossesKilledThisWeek[3].boss}
+                            </li>
+                        </ul>
+                    {/if}
                 </td>
                 <td class={`px-6 py-4 whitespace-no-wrap ${count >= 7 ? 'text-lime-400' : 'text-red-600'}`}>
                     Defeat 7 Nerub-ar Palace Raid Bosses
+                    {#if count >= 7}
+                    <ul>
+                        <li>
+                            {data.character.raidBossesKilledThisWeek[0].difficulty} {data.character.raidBossesKilledThisWeek[0].boss}<br/>
+                            {data.character.raidBossesKilledThisWeek[1].difficulty} {data.character.raidBossesKilledThisWeek[1].boss}<br/>
+                            {data.character.raidBossesKilledThisWeek[2].difficulty} {data.character.raidBossesKilledThisWeek[2].boss}<br/>
+                            {data.character.raidBossesKilledThisWeek[3].difficulty} {data.character.raidBossesKilledThisWeek[3].boss}<br/>
+                            {data.character.raidBossesKilledThisWeek[4].difficulty} {data.character.raidBossesKilledThisWeek[4].boss}<br/>
+                            {data.character.raidBossesKilledThisWeek[5].difficulty} {data.character.raidBossesKilledThisWeek[5].boss}<br/>
+                            {data.character.raidBossesKilledThisWeek[6].difficulty} {data.character.raidBossesKilledThisWeek[6].boss}
+                        </li>
+                    </ul>
+                {/if}
                 </td>
             </tr>
             <tr>
                 <td class="px-6 py-4 whitespace-no-wrap text-xl">Dungeons ({data.character?.raiderIOCharacterData.mythic_plus_weekly_highest_level_runs.length} completed)</td>                            
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot1}`}>
-                Complete 1 Heroic, Mythic, or Timewalking Dungeon {#if dungeonSlot1Value != null} <br/>{dungeonSlot1Value} {/if}         
-               <p>+{runs[0].mythic_level} {runs[0].dungeon}</p>
+                Complete 1 Heroic, Mythic, or Timewalking Dungeon 
+                {#if dungeonSlot1Value != null} <br/>{dungeonSlot1Value}         
+                    <p>+{runs[0].mythic_level} {runs[0].dungeon}</p>
+                {/if} 
                 </td>
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot2}`}>
-                    Complete 4 Heroic, Mythic, or Timewalking Dungeons {#if dungeonSlot2Value != null} {dungeonSlot2Value} {/if} 
-                    {#each dungeonSlot2Runs as run}
-                    <p>+{run.mythic_level} {run.dungeon}</p>                        
-                    {/each}
+                    Complete 4 Heroic, Mythic, or Timewalking Dungeons 
+                    {#if dungeonSlot2Value != null} {dungeonSlot2Value} 
+                        {#each dungeonSlot2Runs as run}
+                            <p>+{run.mythic_level} {run.dungeon}</p>                        
+                        {/each}
+                    {/if} 
                 </td>
                 <td class={`px-6 py-4 whitespace-no-wrap ${dungeonSlot3}`}>
-                    Complete 8 Heroic, Mythic, or Timewalking Dungeons {#if dungeonSlot3Value != null} {dungeonSlot3Value} {/if}
-                    {#each dungeonSlot3Runs  as run}
-                    <p>+{run.mythic_level} {run.dungeon}</p>                        
-                    {/each}
+                    Complete 8 Heroic, Mythic, or Timewalking Dungeons 
+                    {#if dungeonSlot3Value != null} {dungeonSlot3Value}
+                        {#each dungeonSlot3Runs  as run}
+                            <p>+{run.mythic_level} {run.dungeon}</p>
+                        {/each}
+                    {/if} 
                 </td>
             </tr>                       
         </tbody>
